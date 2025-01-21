@@ -24,6 +24,8 @@
     "@nestjs/config": "^4.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
+    "cqrs-flow": "^1.0.26",
+    "groq-sdk": "^0.12.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
   },
