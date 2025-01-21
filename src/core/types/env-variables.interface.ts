@@ -4,6 +4,7 @@ export interface IAppVariables {
 
 export interface IGroqVariables {
   apiKey: string;
+  model: string;
 }
 
 export interface IEnvironmentVariables {
