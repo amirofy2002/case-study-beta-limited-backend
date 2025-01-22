@@ -11,5 +11,5 @@ export const setupSwagger = (app: INestApplication) => {
     .build();
   const orgDocumentFactory = () => SwaggerModule.createDocument(app, orgConfig);
 
-  SwaggerModule.setup('api/documents', app, orgDocumentFactory);
+  SwaggerModule.setup('', app, orgDocumentFactory);
 };
