@@ -1,8 +1,8 @@
 import { ITransaction } from '@core/types/transactions.interface';
 import { ICommand } from 'cqrs-flow';
-export class DetectPatternCommand implements ICommand {
+export class DetectPatternsCommand implements ICommand {
   constructor(
     public readonly name: string,
-    public readonly transaction: ITransaction,
+    public readonly transactions: ITransaction[],
   ) {}
 }

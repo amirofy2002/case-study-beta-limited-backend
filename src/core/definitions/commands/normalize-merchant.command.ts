@@ -3,6 +3,6 @@ import { ICommand } from 'cqrs-flow';
 export class NormalizeMerchantNameCommand implements ICommand {
   constructor(
     public readonly name: string,
-    public readonly transaction: ITransaction,
+    public readonly transactions: ITransaction[],
   ) {}
 }

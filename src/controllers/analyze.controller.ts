@@ -7,13 +7,13 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { ApiBody, ApiOperation } from '@nestjs/swagger';
 import { ProcessTransactionUsecase } from '@use-cases/process-transctions/prcess-transcation.usecase';
 
-@Controller('transactions')
-export class TransactionsController extends GenericService {
+@Controller('analyze')
+export class AnalyzeController extends GenericService {
   constructor(private usecase: ProcessTransactionUsecase) {
     super();
   }
 
-  @Post('/normalize')
+  @Post('/merchant')
   @ApiOperation({ summary: 'Normalize a transaction' })
   @ApiBody({
     description: 'example of a transaction',
@@ -31,14 +31,16 @@ export class TransactionsController extends GenericService {
     },
   })
   async postNormalize(@Body() dto: NormalizeTransactionDto) {
-    const normalized = await this.usecase.normalizeTransaction(dto.transaction);
+    const normalized = await this.usecase.normalizeTransaction([
+      dto.transaction,
+    ]);
     return {
       status: 200,
       normalized,
     };
   }
 
-  @Post('/detect-pattern')
+  @Post('/patterns')
   @ApiBody({
     description: 'example of a transaction',
     examples: {
