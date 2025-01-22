@@ -9,7 +9,7 @@ async function bootstrap() {
   const logger = new Logger('Bootstrap');
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
-  app.setGlobalPrefix(apiGlobalPrefix, { exclude: ['health'] });
+  app.setGlobalPrefix(apiGlobalPrefix, { exclude: ['health', ''] });
   app.enableCors();
   setupSwagger(app);
   const config = app.get(AppConfigService);
