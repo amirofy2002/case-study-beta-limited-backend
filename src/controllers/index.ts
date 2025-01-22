@@ -1,4 +1,4 @@
-import { TransactionsController } from './transactions.controller';
+import { AnalyzeController } from './analyze.controller';
 import { UploadController } from './upload.controller';
 
-export default [TransactionsController, UploadController];
+export default [AnalyzeController, UploadController];

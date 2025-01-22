@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { AppConfigService } from './configs/app-config.service';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { setupSwagger } from './swagger';
-const apiGlobalPrefix = 'beta-api';
+const apiGlobalPrefix = 'api';
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
