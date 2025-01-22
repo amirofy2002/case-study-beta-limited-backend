@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ProcessTransactionUsecase } from './prcess-transcation.usecase';
-import { GroqModule } from '@frameworks/groq/groq.module';
+import { FrameworksModules } from '@frameworks/frameworks.modules';
 
 @Module({
-  imports: [GroqModule],
+  imports: [FrameworksModules],
   providers: [ProcessTransactionUsecase],
   exports: [ProcessTransactionUsecase],
 })
