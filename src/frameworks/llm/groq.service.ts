@@ -1,11 +1,12 @@
 import { AppConfigService } from '@configs/app-config.service';
 import { GenericService } from '@core/shared/generic-service';
+import { LLM } from '@core/types/llm.interface';
 import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { Groq } from 'groq-sdk';
 @Injectable()
 export class GroqService
   extends GenericService
-  implements OnApplicationBootstrap
+  implements OnApplicationBootstrap, LLM
 {
   private client: Groq;
   constructor(private readonly config: AppConfigService) {

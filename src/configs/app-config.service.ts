@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import {
   IAppVariables,
   IEnvironmentVariables,
-  IGroqVariables,
+  ILLMVariable,
 } from 'src/core/types/env-variables.interface';
 
 @Injectable()
@@ -14,7 +14,11 @@ export class AppConfigService {
     return this.configService.get('app', { infer: true });
   }
 
-  get groq(): IGroqVariables {
+  get groq(): ILLMVariable {
     return this.configService.get('groq', { infer: true });
+  }
+
+  get deepseek(): ILLMVariable {
+    return this.configService.get('deepseek', { infer: true });
   }
 }
