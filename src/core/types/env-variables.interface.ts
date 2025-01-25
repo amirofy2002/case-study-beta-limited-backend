@@ -2,12 +2,13 @@ export interface IAppVariables {
   port: number;
 }
 
-export interface IGroqVariables {
+export interface ILLMVariable {
   apiKey: string;
   model: string;
 }
 
 export interface IEnvironmentVariables {
   app: IAppVariables;
-  groq: IGroqVariables;
+  groq: ILLMVariable;
+  deepseek: ILLMVariable;
 }
