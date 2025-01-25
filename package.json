@@ -29,6 +29,7 @@
     "class-validator": "^0.14.1",
     "cqrs-flow": "^1.0.26",
     "groq-sdk": "^0.12.0",
+    "openai": "^4.80.1",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
   },

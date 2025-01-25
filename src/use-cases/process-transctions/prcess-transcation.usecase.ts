@@ -52,9 +52,9 @@ export class ProcessTransactionUsecase extends GenericService {
     const transactions: ITransaction[] = lines.slice(1).map((line) => {
       const parts = line.split(',');
       return {
-        description: parts[descriptionIndex],
-        amount: parseFloat(parts[amountIndex]),
-        date: parts[dateIndex],
+        description: this.clearText(parts[descriptionIndex]),
+        amount: parseFloat(this.clearText(parts[amountIndex])),
+        date: this.clearText(parts[dateIndex]),
       };
     });
     const [patterns, normalized] = await Promise.all([
@@ -62,5 +62,8 @@ export class ProcessTransactionUsecase extends GenericService {
       this.normalizeTransaction(transactions),
     ]);
     return [transactions, patterns, normalized];
+  }
+  private clearText(text: string) {
+    return text.trim().replaceAll('"', '').replaceAll('\\', '');
   }
 }
