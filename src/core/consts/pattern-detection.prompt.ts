@@ -4,8 +4,13 @@ export const generatePatternDetectionPrompt = (
   transactions: ITransaction[],
 ) => {
   return `Analyze financial transactions to identify patterns with special emphasis on subscription detection. Follow these rules:
+1. Merchant Normalization:
+- Extract primary merchant names from transaction descriptions
+- Remove extra codes, locations, and transactional details
+- Standardize naming (e.g., "NFLX DIGITAL NTFLX US" → "NETFLIX")
+- Maintain consistent casing (all caps for normalized names)
 
-1. **Subscription Identification** (Priority Detection):
+2. **Subscription Identification** (Priority Detection):
 - Must meet ALL criteria:
   a) Fixed amount (±5% variance allowed)
   b) Regular monthly intervals (30±3 days between charges)
@@ -14,49 +19,66 @@ export const generatePatternDetectionPrompt = (
 - Auto-classify as 'subscription' type
 - Confidence score = 0.4 + (0.2 * occurrences) [Max 1.0]
 - Predict next date: Last occurrence + 30 days
+- Notes must include:
+  • Payment anchors ('1st/15th of month') 
+  • Service type identification ('streaming','membership')
+  • Billing consistency ('3+ consecutive months')
+  Example note: 'Consistent payment on 15th - streaming service'
 
-2. **Recurring Transaction Detection**:
+3. **Recurring Transaction Detection**:
 - Must meet ALL criteria:
   a) Variable amounts (>5% difference)
   b) Regular non-monthly frequency (daily/weekly/bi-weekly)
   c) Same merchant category
 - Classify as 'recurring' type
 - Confidence score = 0.5 + (0.1 * occurrences) [Max 1.0]
+- Notes must include:
+  • Spending averages ('Avg $X per occurrence')
+  • Location patterns ('Same store #2389')
+  • Behavioral context ('Commute rides','coffee breaks')
+  Example note: 'Weekday purchases ($5.75 avg)'
 
-3. **Merchant Normalization Rules**:
+4. **Merchant Normalization Rules**:
 - Remove special characters/digits after first space (e.g., 'AMZN MKTP US*Z1234ABC' → 'AMZN')
 - Retain brand names before descriptors (e.g., 'SPOTIFY P5D4E9B1D1' → 'SPOTIFY')
 - Group digital/physical variants (e.g., 'AMZN DIGITAL' and 'AMZN MKTP' → 'AMZN')
 
-4. **Output Requirements**:
 
+5. **Enhanced Notes Requirements**:
+- Specify payment anchors for subscriptions (1st/5th/15th/25th)
+- Include numerical averages for recurring expenses
+- Identify service categories (streaming, fuel, food,...)
+- Flag date exceptions ('Weekend charges','holiday spikes',...)
 
+6. **Output Requirements**:
 json
 [
-  {
+   {
     "type": "subscription",
-    "merchant": "Normalized name",
-    "amount": "Exact fixed amount",
+    "merchant": "NFLX",
+    "amount": 19.99,
     "frequency": "monthly",
-    "confidence": 0.6-1.0,
-    "next_expected": "YYYY-MM-DD",
-    "notes": "Subscription details"
+    "confidence": 0.8,
+    "next_expected": "2024-02-01",
+    "notes": "Consistent payment on 1st - streaming service" 
   },
   {
     "type": "recurring",
-    "merchant": "Category/merchant",
-    "amount": "Average amount",
-    "frequency": "daily/weekly",
-    "confidence": 0.5-1.0,
-    "next_expected": "YYYY-MM-DD", 
-    "notes": "Usage pattern observations"
-  }
+    "merchant": "STARBUCKS",
+    "amount": 5.75,
+    "frequency": "daily",
+    "confidence": 0.7,
+    "next_expected": "2024-01-31",
+    "notes": "Weekday purchases at Store #8752 ($5.75 avg)"
 ]
 
-5. Special Handling:
-
+7. Special Handling:
 - Prioritize subscription detection over recurring patterns
 
+8. Validation Safeguards:
+- Auto-escape special characters in notes
+- Validate JSON structure before output
+- Capsule notes at 120 characters maximum
 
 
 Use transaction dates to verify frequency accuracy. Handle multiple patterns per merchant when applicable.
